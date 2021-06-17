@@ -30,6 +30,7 @@ jobs:
           CONFIG_FILE: ./mkdocs.yml
           EXTRA_PACKAGES: build-base
           LOCAL_BRANCH: main
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
       
       - name: Check running containers
         run: docker ps -a
