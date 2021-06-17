@@ -1,6 +1,0 @@
-# action.yml
-name: 'Customized Action to Deploy Docs'
-description: 'mkdocs and deploy to github pages'
-runs:
-  using: 'docker-compose'
-  image: 'Dockerfile'

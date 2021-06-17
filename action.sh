@@ -2,6 +2,7 @@
 
 set -e
 
+echo "env" "${env}"
 echo "local-branch" "${LOCAL_BRANCH}"
 echo "github actor" "${GITHUB_ACTOR}"
 echo "github repo" "${GITHUB_REPOSITORY}"
