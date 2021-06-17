@@ -47,17 +47,16 @@ if ! git config --get user.email; then
     git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
 fi
 
-git checkout --orphan gh-pages
-git ls-remote origin
-# git rm -rf .
-git branch -a
 
-git commit --allow-empty -m 'first commit'
+git remote rm origin
+git remote add origin "${remote_repo}"
+
+git checkout --orphan gh-pages
+echo Hello 1`git ls-remote origin`
+
+git commit --allow-empty -m 'Trigger Deploy'
 git push origin gh-pages:gh-pages -f
 git checkout main
-
-# git remote rm origin
-# git remote add origin "${remote_repo}"
 
 # set +e
 # git branch -D gh-pages
