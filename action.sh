@@ -48,7 +48,9 @@ if ! git config --get user.email; then
 fi
 
 git checkout --orphan gh-pages
-git rm -rf .
+# git rm -rf .
+git branch -a
+
 git commit --allow-empty -m 'first commit'
 git push origin gh-pages:gh-pages
 git checkout main
