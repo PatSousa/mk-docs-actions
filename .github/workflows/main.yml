@@ -37,12 +37,11 @@ jobs:
       - name: build docs
         run: docker-compose run mkdocs
         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
-        with:
-          credentials: ${{secrets.GIT_CREDENTIALS}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXTRA_PACKAGES: build-base
           LOCAL_BRANCH: main
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
 
       - name: kill env
         run: docker-compose down
