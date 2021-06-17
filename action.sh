@@ -51,27 +51,12 @@ fi
 git remote rm origin
 git remote add origin "${remote_repo}"
 
-# git checkout --orphan gh-pages
-# echo Hello 1`git ls-remote origin`
+git checkout --orphan gh-pages
+git commit --allow-empty -m 'Trigger Deploy'
+git push origin gh-pages:gh-pages -f
 
-# git commit --allow-empty -m 'Trigger Deploy'
-# git push origin gh-pages:gh-pages -f
-# git checkout main
+git checkout ${GITHUB_REF}
 
-# set +e
-# git branch -D gh-pages
-# git fetch origin gh-pages:gh-pages
-# set -e
+echo `hello ${GIT_BRANCH}`
 
-echo ${GITHUB_REF}
-# echo `git remote -v`
-# echo Hello`git branch -a`
-
-# git pull origin gh-pages:gh-pages -f
-
-# mkdocs build
-
-# ls
-
-
-# mkdocs gh-deploy --force
+mkdocs gh-deploy --force
