@@ -1,12 +1,14 @@
 FROM squidfunk/mkdocs-material:7.1.8
 
-COPY . /
+WORKDIR /code
 
-COPY action.sh /action.sh
+COPY . /code
 
-RUN apk add --no-cache bash && chmod +x /action.sh
+RUN ls
+
+COPY action.sh /code/action.sh
+
+RUN apk add --no-cache bash && chmod +x /code/action.sh
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["mkdocs"]
-
-CMD ["gh-deploy"]
+ENTRYPOINT ["/code/action.sh"]
