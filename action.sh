@@ -2,6 +2,8 @@
 
 set -e
 
+echo $LOCAL_BRANCH
+
 function print_info() {
     echo -e "\e[36mINFO: ${1}\e[m"
 }
