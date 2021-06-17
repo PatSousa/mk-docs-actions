@@ -57,6 +57,6 @@ set -e
 
 # git checkout ${GITHUB_REF}
 
-echo hello ${GIT_BRANCH}
+echo hello ${LOCAL_BRANCH}
 
 # mkdocs gh-deploy --force
