@@ -48,6 +48,7 @@ if ! git config --get user.email; then
 fi
 
 git checkout --orphan gh-pages
+git ls-remote origin
 # git rm -rf .
 git branch -a
 
