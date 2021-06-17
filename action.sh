@@ -2,8 +2,8 @@
 
 set -e
 
-echo 'local-branch '$LOCAL_BRANCH
-echo $GITHUB_ACTOR
+echo 'local-branch '${LOCAL_BRANCH}
+echo ${GITHUB_ACTOR}
 
 function print_info() {
     echo -e "\e[36mINFO: ${1}\e[m"
