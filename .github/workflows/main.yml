@@ -31,6 +31,9 @@ jobs:
           EXTRA_PACKAGES: build-base
           LOCAL_BRANCH: main
       
+      - name: Check running containers
+        run: docker ps -a
+      
       - name: build docs
         run: docker-compose run mkdocs
         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
