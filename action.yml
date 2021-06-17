@@ -3,4 +3,4 @@ name: 'Customized Action to Deploy Docs'
 description: 'mkdocs and deploy to github pages'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  run: docker-compose up --build -d

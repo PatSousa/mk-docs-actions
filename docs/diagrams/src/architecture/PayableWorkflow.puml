@@ -1,0 +1,11 @@
+@startuml PayableWorkflow
+interface PayableWorkflow {
+    __init__(payble_entity)
+    check_if_accepting_payment() -> None (throws BadRequest)
+    apply_payment_result(payment_processor_result: PaymentProcessorResult) -> None
+}
+
+class InvoicePayableWorkflow implements PayableWorkflow
+class BulkInvoicePayableWorkflow implements PayableWorkflow
+class CheckoutLinkPayableWorkflow implements PayableWorkflow
+@enduml
