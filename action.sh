@@ -52,7 +52,7 @@ git checkout --orphan gh-pages
 git branch -a
 
 git commit --allow-empty -m 'first commit'
-git push origin gh-pages:gh-pages
+git push origin gh-pages:gh-pages -f
 git checkout main
 
 # git remote rm origin
