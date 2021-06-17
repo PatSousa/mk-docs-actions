@@ -30,6 +30,15 @@ jobs:
           CONFIG_FILE: ./mkdocs.yml
           EXTRA_PACKAGES: build-base
           LOCAL_BRANCH: main
+      
+      - name: build docs
+        run: docker-compose run mkdocs
+        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: ./mkdocs.yml
+          EXTRA_PACKAGES: build-base
+          LOCAL_BRANCH: main
 
       - name: kill env
         run: docker-compose down
