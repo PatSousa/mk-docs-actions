@@ -6,8 +6,6 @@ function print_info() {
     echo -e "\e[36mINFO: ${1}\e[m"
 }
 
-echo ${GITHUB_WORKSPACE}
-echo `ls`
 
 if [ -n "${EXTRA_PACKAGES}" ]; then
     apk add --no-cache "${EXTRA_PACKAGES}"
@@ -33,7 +31,7 @@ if [ -n "${CONFIG_FILE}" ]; then
     print_info "Setting custom path for mkdocs config yml"
     export CONFIG_FILE="${GITHUB_WORKSPACE}/${CONFIG_FILE}"
 else
-    export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
+    export CONFIG_FILE="/mkdocs.yml"
 fi
 
 if [ -n "${GITHUB_TOKEN}" ]; then
@@ -52,15 +50,13 @@ if ! git config --get user.email; then
     git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
 fi
 
-# git remote rm origin
-# git remote add origin "${remote_repo}"
+git remote rm origin
+git remote add origin "${remote_repo}"
 
-# git checkout --orphan gh-pages
-# git commit --allow-empty -m 'Trigger Deploy'
-# git push origin gh-pages:gh-pages -f
+git checkout --orphan gh-pages
+git commit --allow-empty -m 'Trigger Deploy'
+git push origin gh-pages:gh-pages -f
 
-# git checkout ${LOCAL_BRANCH}
+git checkout ${LOCAL_BRANCH}
 
-# mkdocs gh-deploy --force
-mkdocs build
-echo `less site/diagrams/out/architecture/CardappDataModel.svg`
+mkdocs gh-deploy --force
