@@ -7,6 +7,7 @@ function print_info() {
 }
 
 echo ${GITHUB_WORKSPACE}
+echo `ls`
 
 if [ -n "${EXTRA_PACKAGES}" ]; then
     apk add --no-cache "${EXTRA_PACKAGES}"
@@ -18,6 +19,8 @@ else
     REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
     if [ -f "${REQUIREMENTS}" ]; then
         pip install -r "${REQUIREMENTS}"
+    else
+        pip install -r requirements.txt
     fi
 fi
 
