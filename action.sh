@@ -2,64 +2,58 @@
 
 set -e
 
-echo "env" "${env}"
-echo "local-branch" "${LOCAL_BRANCH}"
-echo "github actor" "${GITHUB_ACTOR}"
-echo "github repo" "${GITHUB_REPOSITORY}"
+function print_info() {
+    echo -e "\e[36mINFO: ${1}\e[m"
+}
 
+if [ -n "${EXTRA_PACKAGES}" ]; then
+    apk add --no-cache "${EXTRA_PACKAGES}"
+fi
 
-# function print_info() {
-#     echo -e "\e[36mINFO: ${1}\e[m"
-# }
+if [ -n "${REQUIREMENTS}" ] && [ -f "${GITHUB_WORKSPACE}/${REQUIREMENTS}" ]; then
+    pip install -r "${GITHUB_WORKSPACE}/${REQUIREMENTS}"
+else
+    REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
+    if [ -f "${REQUIREMENTS}" ]; then
+        pip install -r "${REQUIREMENTS}"
+    fi
+fi
 
-# if [ -n "${EXTRA_PACKAGES}" ]; then
-#     apk add --no-cache "${EXTRA_PACKAGES}"
-# fi
+if [ -n "${CUSTOM_DOMAIN}" ]; then
+    print_info "Setting custom domain for github pages"
+    echo "${CUSTOM_DOMAIN}" > "${GITHUB_WORKSPACE}/docs/CNAME"
+fi
 
-# if [ -n "${REQUIREMENTS}" ] && [ -f "${GITHUB_WORKSPACE}/${REQUIREMENTS}" ]; then
-#     pip install -r "${GITHUB_WORKSPACE}/${REQUIREMENTS}"
-# else
-#     REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
-#     if [ -f "${REQUIREMENTS}" ]; then
-#         pip install -r "${REQUIREMENTS}"
-#     fi
-# fi
+if [ -n "${CONFIG_FILE}" ]; then
+    print_info "Setting custom path for mkdocs config yml"
+    export CONFIG_FILE="${GITHUB_WORKSPACE}/${CONFIG_FILE}"
+else
+    export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
+fi
 
-# if [ -n "${CUSTOM_DOMAIN}" ]; then
-#     print_info "Setting custom domain for github pages"
-#     echo "${CUSTOM_DOMAIN}" > "${GITHUB_WORKSPACE}/docs/CNAME"
-# fi
+if [ -n "${GITHUB_TOKEN}" ]; then
+    print_info "setup with GITHUB_TOKEN"
+    remote_repo="https://x-access-token:${GITHUB_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
+elif [ -n "${PERSONAL_TOKEN}" ]; then
+    print_info "setup with PERSONAL_TOKEN"
+    remote_repo="https://x-access-token:${PERSONAL_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
+fi
 
-# if [ -n "${CONFIG_FILE}" ]; then
-#     print_info "Setting custom path for mkdocs config yml"
-#     export CONFIG_FILE="${GITHUB_WORKSPACE}/${CONFIG_FILE}"
-# else
-#     export CONFIG_FILE="${GITHUB_WORKSPACE}/mkdocs.yml"
-# fi
+if ! git config --get user.name; then
+    git config --global user.name "${GITHUB_ACTOR}"
+fi
 
-# if [ -n "${GITHUB_TOKEN}" ]; then
-#     print_info "setup with GITHUB_TOKEN"
-#     remote_repo="https://x-access-token:${GITHUB_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
-# elif [ -n "${PERSONAL_TOKEN}" ]; then
-#     print_info "setup with PERSONAL_TOKEN"
-#     remote_repo="https://x-access-token:${PERSONAL_TOKEN}@${GITHUB_DOMAIN:-"github.com"}/${GITHUB_REPOSITORY}.git"
-# fi
+if ! git config --get user.email; then
+    git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
+fi
 
-# if ! git config --get user.name; then
-#     git config --global user.name "${GITHUB_ACTOR}"
-# fi
+git remote rm origin
+git remote add origin "${remote_repo}"
 
-# if ! git config --get user.email; then
-#     git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
-# fi
+git checkout --orphan gh-pages
+git commit --allow-empty -m 'Trigger Deploy'
+git push origin gh-pages:gh-pages -f
 
-# git remote rm origin
-# git remote add origin "${remote_repo}"
-
-# git checkout --orphan gh-pages
-# git commit --allow-empty -m 'Trigger Deploy'
-# git push origin gh-pages:gh-pages -f
-
-# git checkout ${LOCAL_BRANCH}
+git checkout ${LOCAL_BRANCH}
 
 mkdocs gh-deploy --force
