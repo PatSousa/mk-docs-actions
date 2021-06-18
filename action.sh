@@ -62,3 +62,4 @@ git push origin gh-pages:gh-pages -f
 git checkout ${LOCAL_BRANCH}
 
 mkdocs gh-deploy --force
+echo `ls /site/diagrams/out/architecture`

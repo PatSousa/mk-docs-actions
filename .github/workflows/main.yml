@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Deploy docs
-        run: docker-compose up --build
+        run: docker-compose up --build --abort-on-container-exit --exit-code-from mkdocs
         # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,13 +33,5 @@ jobs:
       - name: Check running containers
         run: docker ps -a
       
-      - name: build docs
-        run: docker-compose run mkdocs
-        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXTRA_PACKAGES: build-base
-          LOCAL_BRANCH: main
-
       - name: kill env
         run: docker-compose down
