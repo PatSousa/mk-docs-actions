@@ -1,0 +1,16 @@
+@startuml
+
+Caller -> PaymentService : pay(payment_params: PaymentParams, user: User)
+PaymentService -> PaymentMethodRepo : get_payment_method(payment_params, user)
+PaymentService -> GatewayConnectionRepo : get_active_gateway_connection(payment_method.gateway_name)
+PaymentService -> PayableWorkflowFactory : get_payable_workflow(payment_params)
+PaymentService -> PaymentProcessorFactory : get_payment_processor(payment_method)
+PaymentService -> PayableWorkflow : check_if_accepting_payment()
+alt check_if_accepting_payment throws BadRequest
+    PaymentService -> Caller : raise BadRequest
+end
+PaymentService -> TransactionRepo : transaction = get_or_create_transaction(payment_params, payment_method, gateway_connection)
+PaymentService -> PaymentProcessor : payment_result = payment_processor(payment_params, payment_method, gateway_connection)\nThese inputs may be combined into a single "PaymentContext" type
+PaymentService -> PayableWorkflow : apply_payment_result(payment_result)
+
+@enduml

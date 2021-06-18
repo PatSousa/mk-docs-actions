@@ -1,0 +1,31 @@
+@startuml CardappDataModel
+object GatewayConnection {
+    represents a connection made between a freshbooks
+    account and a payment gateway account
+}
+object Transaction {
+    represents an authenticated request to pay for one or more
+    payable entities using a single payment method
+}
+object PaymentMethod {
+    represents some instrument owned by a client
+    that can be used to make payments (i.e. a credit card or bank account)
+}
+object PayableEntity {
+    represents some payable object in Freshboks
+    (i.e. an invoice or checkout link)
+}
+object PayableEntityPaymentOptions {
+    respresents settings specified by a business owner on
+    how a particular payable entity is allowed to be paid.
+    (i.e. a given invoice cannot be paid with credit cards,
+    can be with ACH, and can be paid paritally)
+}
+
+GatewayConnection ||--o{ Transaction
+GatewayConnection ||..o{ PaymentMethod
+Transaction ||--|{ PayableEntity
+Transaction ||--|| PaymentMethod
+PayableEntity ||--|| PayableEntityPaymentOptions
+
+@enduml
