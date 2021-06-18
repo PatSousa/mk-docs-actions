@@ -59,4 +59,5 @@ git push origin gh-pages:gh-pages -f
 
 git checkout ${LOCAL_BRANCH}
 
+mkdocs build
 mkdocs gh-deploy --force
