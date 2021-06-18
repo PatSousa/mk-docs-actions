@@ -10,11 +10,11 @@ jobs:
 
   steps:
     - name: Check Out Repo 
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
     
     - name: Build and push
-        id: docker_build
-        uses: ./
-        with:
-          context: ./
-          file: ./docker-compose.yml
+      id: docker_build
+      uses: ./
+      with:
+        context: ./
+        file: ./docker-compose.yml
