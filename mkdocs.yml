@@ -2,7 +2,7 @@ site_name: My Docs
 site_url: https://example.com/
 plugins:
   - build_plantuml:
-      render: "" # or "local" for local rendering
+      render: "server" # or "local" for local rendering
       # bin_path: "/usr/local/bin/plantuml" # ignored when render: server
       server: "http://plantuml:8080" # offical plantuml server
       output_format: "svg" # or "png"

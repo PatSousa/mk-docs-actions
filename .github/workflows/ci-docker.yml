@@ -1,0 +1,20 @@
+name: Test docker
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Check Out Repo 
+        uses: actions/checkout@v2
+    
+    - name: Build and push
+        id: docker_build
+        uses: ./
+        with:
+          context: ./
+          file: ./docker-compose.yml
