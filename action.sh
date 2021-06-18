@@ -52,14 +52,15 @@ if ! git config --get user.email; then
     git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
 fi
 
-git remote rm origin
-git remote add origin "${remote_repo}"
+# git remote rm origin
+# git remote add origin "${remote_repo}"
 
-git checkout --orphan gh-pages
-git commit --allow-empty -m 'Trigger Deploy'
-git push origin gh-pages:gh-pages -f
+# git checkout --orphan gh-pages
+# git commit --allow-empty -m 'Trigger Deploy'
+# git push origin gh-pages:gh-pages -f
 
-git checkout ${LOCAL_BRANCH}
+# git checkout ${LOCAL_BRANCH}
 
-mkdocs gh-deploy --force
-echo `ls /site/diagrams/out/architecture`
+# mkdocs gh-deploy --force
+mkdocs build
+echo `less site/diagrams/out/architecture/CardappDataModel.svg`
