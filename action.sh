@@ -17,7 +17,6 @@ if [ -n "${REQUIREMENTS}" ] && [ -f "${GITHUB_WORKSPACE}/${REQUIREMENTS}" ]; the
 else
     REQUIREMENTS="${GITHUB_WORKSPACE}/requirements.txt"
     if [ -f "${REQUIREMENTS}" ]; then
-        echo "Heeeere"
         pip install -r "${REQUIREMENTS}"
     fi
 fi
@@ -50,13 +49,13 @@ if ! git config --get user.email; then
     git config --global user.email "${GITHUB_ACTOR}@users.noreply.${GITHUB_DOMAIN:-"github.com"}"
 fi
 
-# git remote rm origin
-# git remote add origin "${remote_repo}"
+git remote rm origin
+git remote add origin "${remote_repo}"
 
-# git checkout --orphan gh-pages
-# git commit --allow-empty -m 'Trigger Deploy'
-# git push origin gh-pages:gh-pages -f
+git checkout --orphan gh-pages
+git commit --allow-empty -m 'Trigger Deploy'
+git push origin gh-pages:gh-pages -f
 
-# git checkout ${LOCAL_BRANCH}
+git checkout ${LOCAL_BRANCH}
 
-# mkdocs gh-deploy --force
+mkdocs gh-deploy --force
