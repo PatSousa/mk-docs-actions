@@ -11,3 +11,5 @@ services:
       - plantuml
     ports:
       - "8000:8000"
+    environment: 
+      LOCAL_BRANCH: ${LOCAL_BRANCH}

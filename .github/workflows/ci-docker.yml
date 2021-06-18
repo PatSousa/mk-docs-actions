@@ -6,14 +6,16 @@ on:
 
 jobs:
   build:
+    name: Deploy docs
     runs-on: ubuntu-latest
     steps:
-      - name: Check Out Repo 
+      - name: Checkout main
         uses: actions/checkout@v2
-      
-      - name: Build and push
-        id: docker_build
-        uses: ./
-        with:
-          context: ./
-          file: ./docker-compose.yml
+
+      - name: Deploy docs
+        run: docker-compose up --build
+        # Or use mhausenblas/mkdocs-deploy-gh-pages@nomaterial to build without the mkdocs-material theme
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXTRA_PACKAGES: build-base
+          LOCAL_BRANCH: main
