@@ -1,3 +1,3 @@
 # Tested deployed
 
-![CardappDataModel](/diagrams/out/architecture/CardappDataModel.svg)
+![CardappDataModel](diagrams/out/architecture/CardappDataModel.svg)
