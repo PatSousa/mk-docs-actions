@@ -1,6 +1,6 @@
 FROM squidfunk/mkdocs-material:7.1.8
 
-COPY . .
+COPY . /
 
 RUN ls
 
